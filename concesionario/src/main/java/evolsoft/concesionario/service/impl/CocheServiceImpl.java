@@ -104,8 +104,7 @@ public class CocheServiceImpl implements CocheService {
 	}
 
 	@Override
-	public List<CocheDTO> findCochesInPriceRange(Integer minPrice, Integer maxPrice)
-	{
+	public List<CocheDTO> findCochesInPriceRange(Integer minPrice, Integer maxPrice) {
 		List<Coche> coches = cocheDAO.findCarsBtwPriceRange(minPrice, maxPrice);
 		final List<CocheDTO> cochesInRange = new ArrayList<>();
 		coches.forEach(coche -> {
@@ -113,6 +112,17 @@ public class CocheServiceImpl implements CocheService {
 			cochesInRange.add(cocheDTO);
 		});
 		return cochesInRange;
+	}
+
+	@Override
+	public List<CocheDTO> findCochesInStock() {
+		List<Coche> coches = cocheDAO.findCarsInStock();
+		final List<CocheDTO> cochesInStock = new ArrayList<>();
+		coches.forEach(coche -> {
+			final CocheDTO cocheDTO = map(coche);
+			cochesInStock.add(cocheDTO);
+		});
+		return cochesInStock;
 	}
 
 }
