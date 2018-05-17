@@ -30,4 +30,7 @@ public interface CocheService {
 
 	public List<CocheDTO> findCochesInStock();
 	
+	void newSell(Integer idCoche, Integer idCliente, Integer idVendedor) throws NotFoundExcept;
+
+	
 }
