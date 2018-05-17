@@ -128,7 +128,7 @@ public class CocheServiceImpl implements CocheService {
 	@Override
 	public void newSell(Integer idCoche, Integer idCliente, Integer idVendedor) throws NotFoundExcept {
 		Coche soldCar = Optional.ofNullable(cocheDAO.findOne(idCoche)).orElseThrow(() -> new NotFoundExcept());
-		soldCar.setFechaVenta(todaysDate());
+		soldCar.setFechaVenta(LocalDate.now().toString());
 		addClienteToSoldCar(idCliente, soldCar);
 		addVendedorToSoldCar(idVendedor, soldCar);
 		cocheDAO.save(soldCar);
@@ -145,9 +145,6 @@ public class CocheServiceImpl implements CocheService {
 		coche.setVendedor(vendedorService.map(vendedorCoche));
 		}
 	}
-	private String todaysDate() {
-		Date today = Calendar.getInstance().getTime();
-		return today.toString();
-	}
+	
 
 }
