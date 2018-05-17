@@ -145,6 +145,12 @@ public class CocheServiceImpl implements CocheService {
 		coche.setVendedor(vendedorService.map(vendedorCoche));
 		}
 	}
-	
+
+@Override
+public void createList(List<CocheDTO> listCocheDto) {
+for(CocheDTO cocheDTO : listCocheDto) {
+cocheDAO.save(map(cocheDTO));
+}
+}
 
 }
