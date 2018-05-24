@@ -124,7 +124,7 @@ public class CocheServiceImpl implements CocheService {
 		});
 		return cochesInStock;
 	}
-	
+
 	@Override
 	public void newSell(Integer idCoche, Integer idCliente, Integer idVendedor) throws NotFoundExcept {
 		Coche soldCar = Optional.ofNullable(cocheDAO.findOne(idCoche)).orElseThrow(() -> new NotFoundExcept());
@@ -133,24 +133,26 @@ public class CocheServiceImpl implements CocheService {
 		addVendedorToSoldCar(idVendedor, soldCar);
 		cocheDAO.save(soldCar);
 	}
+
 	public void addClienteToSoldCar(Integer idCliente, Coche coche) throws NotFoundExcept {
-		ClienteDTO clienteCoche = clienteService.findById(idCliente);
-		if(clienteCoche != null) {
-		coche.setCliente(clienteService.map(clienteCoche));
-		}
-	}
-	public void addVendedorToSoldCar(Integer idVendedor, Coche coche) throws NotFoundExcept {
-		VendedorDTO vendedorCoche = vendedorService.findById(idVendedor);
-		if(vendedorCoche != null) {
-		coche.setVendedor(vendedorService.map(vendedorCoche));
+		Optional<ClienteDTO> clienteCoche = Optional.ofNullable(clienteService.findById(idCliente));
+		if (clienteCoche.isPresent()) {
+			coche.setCliente(clienteService.map(clienteCoche));
 		}
 	}
 
-    @Override
-    public void createList(List<CocheDTO> listCocheDto) {
-	for(CocheDTO cocheDTO : listCocheDto) {
-	    cocheDAO.save(map(cocheDTO));
+	public void addVendedorToSoldCar(Integer idVendedor, Coche coche) throws NotFoundExcept {
+		Optional<VendedorDTO> vendedorCoche = Optional.ofNullable(vendedorService.findById(idVendedor));
+		if (vendedorCoche.isPresent()) {
+			coche.setVendedor(vendedorService.map(vendedorCoche));
+		}
 	}
-    }
+
+	@Override
+	public void createList(List<CocheDTO> listCocheDto) {
+		for (CocheDTO cocheDTO : listCocheDto) {
+			cocheDAO.save(map(cocheDTO));
+		}
+	}
 
 }
